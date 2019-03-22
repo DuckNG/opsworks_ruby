@@ -29,7 +29,19 @@ module Drivers
           log_dir: node['deploy'][app['shortname']][driver_type]['log_dir'] || "/var/log/#{service_name}"
         )
         output[:extra_config_ssl] = output[:extra_config] if output[:extra_config_ssl] == true
+        output[:appserver_port] = appserver_port
         output
+      end
+
+      def appserver_port
+        Chef::Log.info('appserver_port')
+        Chef::Log.info(node['defaults']['appserver']['port'])
+        Chef::Log.info(node['deploy'][app['shortname']]['appserver']['port'])
+        result = node['defaults']['appserver']['port'].merge(
+          node['deploy'][app['shortname']]['appserver']['port'] || {}
+        ).symbolize_keys
+        Chef::Log.info(result)
+        result[:port]
       end
 
       def setup
