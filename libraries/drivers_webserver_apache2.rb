@@ -37,11 +37,9 @@ module Drivers
         Chef::Log.info('appserver_port')
         Chef::Log.info(node['defaults']['appserver']['port'])
         Chef::Log.info(node['deploy'][app['shortname']]['appserver']['port'])
-        result = node['defaults']['appserver']['port'].merge(
-          node['deploy'][app['shortname']]['appserver']['port'] || {}
-        ).symbolize_keys
+        result = node['deploy'][app['shortname']]['appserver']['port'] || '3000'
         Chef::Log.info(result)
-        result[:port]
+        result
       end
 
       def setup
