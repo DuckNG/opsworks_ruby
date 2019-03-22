@@ -4,10 +4,6 @@
 Listen <%= @out[:port] %>
 <% end -%>
 
-### <%= @out.inspect %>
-### <%= @application.inspect %>
-### <%= node.inspect %>
-
 <VirtualHost *:<%= @out[:port] %>>
   ServerName <%= node['hostname'] %>
   ServerAlias <%= @application[:domains].join(" ") %>
