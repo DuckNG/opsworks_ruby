@@ -30,7 +30,7 @@ module Drivers
           log_dir: node['deploy'][app['shortname']][driver_type]['log_dir'] || "/var/log/#{service_name}"
         )
         output[:extra_config_ssl] = output[:extra_config] if output[:extra_config_ssl] == true
-        output[:appserver_port] = node['deploy'][app['shortname']]['appserver']['port'] || '3000'
+        output[:appserver_port] = node['deploy'][app['shortname']].try(:[], 'appserver').try(:[], 'port') || '3000'
         output
       end
 
