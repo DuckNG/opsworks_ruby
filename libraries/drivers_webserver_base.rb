@@ -85,8 +85,6 @@ module Drivers
 
       def add_appserver_config
         a = Drivers::Appserver::Factory.build(context, app)
-        Chef::Log.info('add_appserver_config')
-        Chef::Log.info(settings)
         opts = { application: app, deploy_dir: deploy_dir(app), out: out, conf_dir: conf_dir, adapter: adapter,
                  name: a.adapter, deploy_env: deploy_env, appserver_config: a.webserver_config_params,
                  ssl_cert_dir: ssl_cert_dir }

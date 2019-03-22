@@ -9,6 +9,7 @@ module Drivers
       output filter: %i[
         dhparams keepalive_timeout limit_request_body log_dir log_level proxy_timeout
         ssl_for_legacy_browsers extra_config extra_config_ssl port ssl_port force_ssl
+        appserver_port
       ]
       notifies :deploy,
                action: :reload, resource: { debian: 'service[apache2]', rhel: 'service[httpd]' }, timer: :delayed
@@ -29,17 +30,8 @@ module Drivers
           log_dir: node['deploy'][app['shortname']][driver_type]['log_dir'] || "/var/log/#{service_name}"
         )
         output[:extra_config_ssl] = output[:extra_config] if output[:extra_config_ssl] == true
-        output[:appserver_port] = appserver_port
+        output[:appserver_port] = node['deploy'][app['shortname']]['appserver']['port'] || '3000'
         output
-      end
-
-      def appserver_port
-        Chef::Log.info('appserver_port')
-        Chef::Log.info(node['defaults']['appserver']['port'])
-        Chef::Log.info(node['deploy'][app['shortname']]['appserver']['port'])
-        result = node['deploy'][app['shortname']]['appserver']['port'] || '3000'
-        Chef::Log.info(result)
-        result
       end
 
       def setup
